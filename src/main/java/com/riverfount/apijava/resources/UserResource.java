@@ -2,6 +2,7 @@ package com.riverfount.apijava.resources;
 
 import com.riverfount.apijava.entities.User;
 import com.riverfount.apijava.services.UserService;
+import com.riverfount.apijava.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,9 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) {
         Optional<User> user = service.findById(id);
-        return ResponseEntity.ok(user.get());
+        return user.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @PostMapping
