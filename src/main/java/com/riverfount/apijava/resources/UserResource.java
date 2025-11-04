@@ -26,9 +26,9 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    public User getUserById(@PathVariable Long id) {
-        Optional<User> user = service.findById(id);
-        return user.orElseThrow(() -> new ResourceNotFoundException(id));
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping
